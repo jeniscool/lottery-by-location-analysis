@@ -9,6 +9,7 @@ class City:
         self.avg_income = avg_income
         self.num_households = num_households
 
+
     ''' Returns the string representation of the object. '''
     def __repr__(self):
         return str(self)

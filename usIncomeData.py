@@ -85,8 +85,12 @@ class USIncomeData:
         data_dict = {}
 
         for city in self.data:
+            # Remove missing data
+            if city.area == 0 or city.avg_income == 0 or city.num_households == 0:
+                continue
             key = f"{city.city},{city.state}"
 
+            # For cities broken up into districts, combine
             if key in data_dict:
                 data_dict[key][0].append(city.area)
                 data_dict[key][1].append(city.avg_income)
@@ -105,6 +109,7 @@ class USIncomeData:
             city = name[0]
             state = name[1]
 
+            # eliminate Puerto Rico
             if state != 'Puerto Rico':
                 new_data_list.append(City(city, state, area, avg_income, num_households))
 
@@ -122,3 +127,7 @@ class USIncomeData:
     def sort_by_income(self):
         self.data.sort(key=lambda obj: obj.avg_income)
         log.debug(f"US income data sorted by income.")
+
+    def sort_by_population(self):
+        self.data.sort(key=lambda obj: obj.num_households)
+        log.debug(f"US income data sorted by number of households.")
